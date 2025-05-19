@@ -2,6 +2,7 @@
 #include <unistd.h> /* need this just for write function oddly. Why isn't it with fcntl.h? */
 
 #define EOF	-1
+#define BUFSIZ	16384
 
 int main(int argc, char **argv)
 {
@@ -43,8 +44,8 @@ int mystrlen(char *s)
 /* filecopy: copy file ifp to file ofp */
 void filecopy(int fdi, int fdo)
 {
-	int c;
-
-	while((read(fdi, &c, sizeof(char)) != 0 && c != EOF))
-		write(fdo, &c, sizeof c);
+	char buf[BUFSIZ];
+	ssize_t bytesread;
+	while((bytesread = read(fdi, buf, sizeof buf)) != 0)
+		write(fdo, buf, (size_t) bytesread);
 }
