@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <stdarg.h>
+#include <string.h>
 
 #define CMDMAX	512
 
-void error(char *fmt);
+void error(char *fmt, ...);
 
 enum prog
 {
@@ -21,7 +23,7 @@ int main(int argc, char **argv)
 	enum prog p = x;
 
 	/* construct command */
-	char *cmd[CMDMAX];
+	char cmd[CMDMAX];
 
 	if(p == STD)
 		strcpy(cmd, "./cat-stdlib ");
@@ -33,17 +35,17 @@ int main(int argc, char **argv)
 	{
 		strcat(cmd, *++argv);
 		if(argc > 0)
-			strcat(cmd, ' ');
+			strcat(cmd, " ");
 	}
 
 	/* measure performance */
 	struct timeval t0, t1, td;
-	if(gettimeofday(&t0) == -1)
+	if(gettimeofday(&t0, NULL) == -1)
 		error("Failed to get start time!");
 
 	system((const char *) cmd);
 
-	if(gettimeofday(&t1) == -1)
+	if(gettimeofday(&t1, NULL) == -1)
 		error("Failed to get end time!");
 	timersub(&t1, &t0, &td);
 
