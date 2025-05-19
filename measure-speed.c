@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 		strcpy(cmd, "./cat-syscall ");
 
 	/* add files after */
-	while(argc-- > 0)
+	while(--argc > 0)
 	{
 		strcat(cmd, *++argv);
 		if(argc > 0)
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 		error("Failed to get end time!");
 	timersub(&t1, &t0, &td);
 
-	printf("\nExecution tim was %5.55ds %6.6dµs\n");
+	printf("\nExecution time was %5.5ds %6.6dµs\n", td.tv_sec, td.tv_usec);
 	return EXIT_SUCCESS;
 }
 
