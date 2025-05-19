@@ -43,6 +43,6 @@ void filecopy(int fdi, int fdo)
 {
 	int c;
 
-	while((read(fdi, &c, sizeof c) == 0))
+	while((read(fdi, &c, sizeof c) != 0))
 		write(fdo, &c, sizeof c);
 }
