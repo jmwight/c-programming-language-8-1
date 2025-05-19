@@ -1,6 +1,8 @@
 #include <fcntl.h>
 #include <unistd.h> /* need this just for write function oddly. Why isn't it with fcntl.h? */
 
+#define EOF	-1
+
 int main(int argc, char **argv)
 {
 	int fd;
@@ -43,6 +45,6 @@ void filecopy(int fdi, int fdo)
 {
 	int c;
 
-	while((read(fdi, &c, sizeof c) != 0))
+	while((read(fdi, &c, sizeof(char)) != 0 && c != EOF))
 		write(fdo, &c, sizeof c);
 }
