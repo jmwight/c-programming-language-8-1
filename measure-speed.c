@@ -17,8 +17,26 @@ int main(int argc, char **argv)
 {
 	if(argc-- < 2)
 		error("usage: ./measure-speed PROGNUM FILE1, FILE2, ...");
-	int x;
-	if((x = atoi(*++argv)) > 2 || x < 1)
+	int x, l;
+	if(**++argv == '-')
+	{
+		/* XXX: find out why these brackets are necessary else statement fall in when not supposed to */
+		if(*++*argv == 'l')
+		{
+			if((l = atoi(*++argv)) < 1)
+			{
+				error("No number or negative number given for iterations!");
+			}
+			else
+			{
+				++argv;
+			}
+			argc -= 2;
+		}
+		else
+			error("Invalid option given. Only -l NUM_OF_ITERATIONS permitted.");
+	}
+	if((x = atoi(*argv)) > 2 || x < 1)
 		error("Only program 1 (standard) and 2 (syscall) are valid");
 	enum prog p = x;
 
