@@ -18,6 +18,7 @@ int main(int argc, char **argv)
 	if(argc-- < 2)
 		error("usage: ./measure-speed PROGNUM FILE1, FILE2, ...");
 	int x, l;
+	l = 1;
 	if(**++argv == '-')
 	{
 		/* XXX: find out why these brackets are necessary else statement fall in when not supposed to */
@@ -60,14 +61,22 @@ int main(int argc, char **argv)
 	struct timeval t0, t1, td;
 	if(gettimeofday(&t0, NULL) == -1)
 		error("Failed to get start time!");
-
-	system((const char *) cmd);
+	
+	int i;
+	for(i = 0; i < l; i++)
+	{
+		system((const char *) cmd);
+	}
 
 	if(gettimeofday(&t1, NULL) == -1)
 		error("Failed to get end time!");
 	timersub(&t1, &t0, &td);
 
-	printf("\nExecution time was %5.5ds %6.6dµs\n", td.tv_sec, td.tv_usec);
+	if(l > 1)
+		printf("\nAverage execution");
+	else
+		printf("\nExecution");
+	printf(" time was %5.5ds %6.6dµs\n", td.tv_sec/l, td.tv_usec/l);
 	return EXIT_SUCCESS;
 }
 
